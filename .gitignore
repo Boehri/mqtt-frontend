@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+src/Components/Cards
+src/Components/Charts
+src/Components/ChartComponent.js
+src/Components/useMQTT.js
+src/Components/Time.js
+src/Components/DashboardComponent.js
+
+
