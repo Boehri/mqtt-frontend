@@ -1,27 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {Typography} from '@mui/material';
 
-export const Time = ({lastUpdated}) => {
+const TimeComponent = ({lastUpdated}) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const [timeSinceUpdate, setTimeSinceUpdate] = useState('');
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
-      if (lastUpdated) {
-        const secondsAgo = Math.round((new Date() - lastUpdated) / 1000);
-        setTimeSinceUpdate(`${secondsAgo} s ago`);
+      if (lastUpdated !== undefined) {
+        const secondsAgo = Math.round((new Date() - new Date(lastUpdated)) / 1000);
+        setTimeSinceUpdate(`${secondsAgo} seconds ago`);
       }
     }, 1000);
 
-    return () => {
-      clearInterval(timeInterval);
-    };
+    return () => clearInterval(timeInterval);
   }, [lastUpdated]);
 
   return (
     <>
-      <Typography variant='subtitle1' align='center' fontSize='20pt'>
+      <Typography variant='subtitle1' align='center' fontSize='20pt' color="black">
         {currentTime}
       </Typography>
       {timeSinceUpdate && (
@@ -32,3 +30,5 @@ export const Time = ({lastUpdated}) => {
     </>
   );
 };
+
+export default TimeComponent;

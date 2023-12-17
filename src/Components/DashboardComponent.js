@@ -1,47 +1,39 @@
-// import React, {useEffect, useState} from 'react';
-// import {useMQTT} from './useMQTT';
-// import {Container, Grid} from '@mui/material';
-// import TemperatureChart from './Charts/TemperatureChart';
-// import HumidityChart from './Charts/HumidityChart';
-// import TemperatureCard from './Cards/TemperatureCard';
-// import HumidityCard from './Cards/HumidityCard';
-// import {Time} from './Time';
+import React from 'react';
+import {useMQTT} from './useMQTT';
+import {Container, Grid, Card, CardContent, Typography} from '@mui/material';
+import TimeComponent from './TimeComponent';
+import ChartComponent from './ChartComponent';
+import CardComponent from './Card';
 
-// export const DashboardComponent = () => {
-//   const {temperature, humidity, lastUpdated} = useMQTT();
-//   const [dataPoints, setDataPoints] = useState([]);
+const MQTTComponent = () => {
+  const {temperature, humidity, pressure, feelsLike, dataPoints, lastUpdated} = useMQTT();
 
-//   useEffect(() => {
-//     if (temperature !== null && humidity !== null) {
-//       const newPoint = {
-//         time: new Date(), // Aktuelle Zeit
-//         temperature: temperature,
-//         humidity: humidity,
-//       };
-//       setDataPoints((prevPoints) => [...prevPoints, newPoint]);
-//     }
-//     console.log(dataPoints)
-//   }, []);
+  return (
+    <Container maxWidth='lg' sx={{backgroundColor: '#f0f8ff', padding: 3}}>
+      <Typography variant='h4' gutterBottom align='center' color='black'>
+        Sensor Dashboard
+      </Typography>
+      <TimeComponent lastUpdated={lastUpdated} />
+      <Grid container spacing={2} justifyContent='center' alignItems='center'>
+        <Grid item xs={12} sm={6}>
+          <CardComponent title={'Temperature'} value={temperature} unit={'°C'} color='#C1E7E3' />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CardComponent title={'Humidity'} value={humidity} unit={'%'} color='#AEC6CF' />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CardComponent title={'Feels Like'} value={feelsLike} unit={'°C'} color='#DABFDE' />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CardComponent title={'Pressure'} value={pressure} unit={'hPa'} color='#CFCFC4' />
+        </Grid>
 
-//   return (
-//     <Container maxWidth='sm'>
-//       <Time lastUpdated={lastUpdated} />
-//       <Grid container spacing={2}>
-//         <Grid item xs={12} sm={6}>
-//           <TemperatureCard temperature={temperature} />
-//         </Grid>
-//         {/* <Grid item xs={12} sm={6}>
-//           <HumidityCard humidity={humidity} />
-//         </Grid>
-//         <Grid item xs={12}>
-//           <TemperatureChart dataPoints={dataPoints} />
-//         </Grid>
-//         <Grid item xs={12}>
-//           <HumidityChart dataPoints={dataPoints} />
-//         </Grid> */}
-//       </Grid>
-//     </Container>
-//   );
-// };
+        <Grid item xs={12}>
+          <ChartComponent dataPoints={dataPoints}></ChartComponent>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
-// export default DashboardComponent;
+export default MQTTComponent;
