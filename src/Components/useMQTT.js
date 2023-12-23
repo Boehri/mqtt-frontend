@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import mqtt from 'mqtt';
 
 export const useMQTT = () => {
@@ -9,6 +9,10 @@ export const useMQTT = () => {
   const [dataPoints, setDataPoints] = useState([]);
   const [lastUpdated, setLastUpdated] = useState(null);
 
+  // useRef, um den aktuellen Wert von Temperatur und Luftfeuchtigkeit zu speichern
+  const currentTemperature = useRef(null);
+  const currentHumidity = useRef(null);
+
   useEffect(() => {
     const mqttClient = mqtt.connect('wss://5d4607be694c4b98bdfdab8fd5f11847.s2.eu.hivemq.cloud:8884/mqtt', {
       connectTimeout: 4000,
@@ -18,29 +22,40 @@ export const useMQTT = () => {
 
     mqttClient.on('connect', () => {
       mqttClient.subscribe(['raspi/temp', 'raspi/humi', 'raspi/press', 'raspi/temp/feelsLike']);
+      console.log('Connected to HiveMQ');
     });
 
     mqttClient.on('message', (topic, message) => {
-      const now = new Date();
       const value = JSON.parse(message.toString());
-      if (topic === 'raspi/temp') {
-        setTemperature(value.temperature);
-        setDataPoints((points) => [...points, {time: now, temperature: value.temperature, humidity: humidity}]);
-      } else if (topic === 'raspi/humi') {
-        setHumidity(value.humidity);
-        setDataPoints((points) => [...points, {time: now, temperature: temperature, humidity: value.humidity}]);
-      } else if (topic === 'raspi/press') {
-        setPressure(value.pressure);
-      } else if (topic === 'raspi/temp/feelsLike') {
-        setFeelsLike(value.feelsLike);
+      const now = new Date();
+      setLastUpdated(now);
+      switch (topic) {
+        case 'raspi/temp':
+          currentTemperature.current = value.temperature;
+          setTemperature(value.temperature);
+          setDataPoints((points) => [...points, {time: now, temperature: currentTemperature.current, humidity: currentHumidity.current}]);
+          break;
+        case 'raspi/humi':
+          currentHumidity.current = value.humidity;
+          setHumidity(value.humidity);
+          break;
+        case 'raspi/press':
+          setPressure(value.pressure);
+          break;
+        case 'raspi/temp/feelsLike':
+          setFeelsLike(value.feelsLike);
+          break;
+        default:
+          break;
       }
-      setLastUpdated(new Date());
+
+      // Aktualisieren von dataPoints, wenn sowohl Temperatur als auch Feuchtigkeit verfügbar sind
     });
 
     return () => {
       mqttClient.end();
     };
-  }, [temperature, humidity, pressure, feelsLike]);
+  }, []); // Leeres Array als Abhängigkeiten, um den Hook nur beim Mounten auszuführen
 
-  return {temperature, humidity, dataPoints, lastUpdated, pressure, feelsLike};
+  return {temperature, humidity, pressure, feelsLike, dataPoints, lastUpdated};
 };

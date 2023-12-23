@@ -3,12 +3,12 @@ import {Typography} from '@mui/material';
 
 const TimeComponent = ({lastUpdated}) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
-  const [timeSinceUpdate, setTimeSinceUpdate] = useState('');
+  const [timeSinceUpdate, setTimeSinceUpdate] = useState(null);
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
-      if (lastUpdated !== undefined) {
+      if (lastUpdated !== null) {
         const secondsAgo = Math.round((new Date() - new Date(lastUpdated)) / 1000);
         setTimeSinceUpdate(`${secondsAgo} seconds ago`);
       }

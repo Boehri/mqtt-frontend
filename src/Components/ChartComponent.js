@@ -6,6 +6,7 @@ import {Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement,
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const HumidityTemperatureChart = ({dataPoints}) => {
+    // console.log(dataPoints);
   const chartData = {
     labels: dataPoints.map((point) => point.time.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false})),
     datasets: [
