@@ -28,5 +28,6 @@ src/Components/ChartComponent.js
 src/Components/useMQTT.js
 src/Components/Time.js
 src/Components/DashboardComponent.js
+src/.env
 
 

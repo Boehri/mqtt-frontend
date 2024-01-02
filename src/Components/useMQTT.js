@@ -16,8 +16,8 @@ export const useMQTT = () => {
   useEffect(() => {
     const mqttClient = mqtt.connect('wss://5d4607be694c4b98bdfdab8fd5f11847.s2.eu.hivemq.cloud:8884/mqtt', {
       connectTimeout: 4000,
-      username: process.env.HIVEMQ_USERNAME,
-      password: process.env.HIVEMQ_PASSWORD,
+      username: process.env.REACT_APP_HIVEMQ_USERNAME,
+      password: process.env.REACT_APP_HIVEMQ_PASSWORD,
     });
 
     mqttClient.on('connect', () => {
