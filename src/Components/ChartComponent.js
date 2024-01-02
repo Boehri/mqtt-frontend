@@ -44,9 +44,9 @@ const HumidityTemperatureChart = ({dataPoints}) => {
   };
 
   return (
-    <div style={{position: 'relative', height: '40vh', width: '90vw'}}>
+    
       <Line data={chartData} options={options} />
-    </div>
+
   );
 };
 
