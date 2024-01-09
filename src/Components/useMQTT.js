@@ -32,18 +32,18 @@ export const useMQTT = () => {
       switch (topic) {
         case 'raspi/temp':
           currentTemperature.current = value.temperature;
-          setTemperature(value.temperature);
+          setTemperature(value.temperature.toFixed(1));
           setDataPoints((points) => [...points, {time: now, temperature: currentTemperature.current, humidity: currentHumidity.current}]);
           break;
         case 'raspi/humi':
           currentHumidity.current = value.humidity;
-          setHumidity(value.humidity);
+          setHumidity(value.humidity.toFixed(1));
           break;
         case 'raspi/press':
-          setPressure(value.pressure);
+          setPressure(Math.round(value.pressure));
           break;
         case 'raspi/temp/feelsLike':
-          setFeelsLike(value.feelsLike);
+          setFeelsLike(value.feelsLike.toFixed(1));
           break;
         default:
           break;
