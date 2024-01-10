@@ -5,7 +5,7 @@ const CardComponent = (props) => {
   const {title, unit, color, value, icon} = props;
 
   return (
-    <Card sx={{height: '100%'}}>
+    <Card >
       <CardContent>
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between' spacing={3}>
           <Stack spacing={1}>
@@ -13,12 +13,12 @@ const CardComponent = (props) => {
               {title}
             </Typography>
             {value ? (
-              <Typography fontSize='30pt' color='text.secondary' sx={{textAlign: 'center'}}>
+                <Typography fontSize='30pt' color='text.secondary' sx={{textAlign: 'center', paddingTop: value ? '0' : '40px'}}>
                 {value}
                 {unit}
               </Typography>
             ) : (
-              <Skeleton variant='text' width={100} height={80} animation='wave' />
+              <Skeleton variant='text' width={100} height={70} animation='wave' />
             )}
           </Stack>
           <Avatar

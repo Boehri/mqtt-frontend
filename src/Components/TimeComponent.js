@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Typography} from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 
-const TimeComponent = ({lastUpdated}) => {
+const TimeComponent = ({ lastUpdated }) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const [timeSinceUpdate, setTimeSinceUpdate] = useState(null);
 
@@ -18,16 +18,20 @@ const TimeComponent = ({lastUpdated}) => {
   }, [lastUpdated]);
 
   return (
-    <>
+    <div style={{ margin: '10px' }}>
       <Typography variant='subtitle1' align='center' fontSize='20pt' color="black">
         {currentTime}
       </Typography>
-      {timeSinceUpdate && (
+      {timeSinceUpdate ? (
         <Typography variant='subtitle2' align='center' color='gray'>
           Last Updated: {timeSinceUpdate}
         </Typography>
+      ) : (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Skeleton variant="text" width={100} height={20} animation="wave" />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
