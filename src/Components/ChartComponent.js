@@ -32,11 +32,39 @@ const HumidityTemperatureChart = ({dataPoints}) => {
     scales: {
       y: {
         beginAtZero: true,
+        grid: {
+          display: true,
+          color: 'rgba(200, 200, 200, 0.5)',
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
       },
     },
     elements: {
       point: {
-        radius: 0, // Reduces point size for a cleaner look
+        radius: 5,
+        hoverRadius: 7,
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 20,
+          padding: 20,
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        enabled: true,
+        mode: 'index',
+        intersect: false,
       },
     },
     responsive: true,
@@ -44,9 +72,11 @@ const HumidityTemperatureChart = ({dataPoints}) => {
   };
 
   return (
-    
+    <div style={{height: '500px'}}>
+      {' '}
+      {/* Höhe nach Bedarf einstellen */}
       <Line data={chartData} options={options} />
-
+    </div>
   );
 };
 
