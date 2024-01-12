@@ -21,7 +21,7 @@ export const useMQTT = () => {
     });
 
     mqttClient.on('connect', () => {
-      mqttClient.subscribe(['raspi/temp', 'raspi/humi', 'raspi/press', 'raspi/temp/feelsLike']);
+      mqttClient.subscribe(['raspi/in/temp', 'raspi/in/humi', 'raspi/in/press', 'raspi/in/temp/feelsLike']);
       console.log('Connected to HiveMQ');
     });
 
@@ -30,19 +30,19 @@ export const useMQTT = () => {
       const now = new Date();
       setLastUpdated(now);
       switch (topic) {
-        case 'raspi/temp':
+        case 'raspi/in/temp':
           currentTemperature.current = value.temperature;
           setTemperature(value.temperature.toFixed(1));
           setDataPoints((points) => [...points, {time: now, temperature: currentTemperature.current, humidity: currentHumidity.current}]);
           break;
-        case 'raspi/humi':
+        case 'raspi/in/humi':
           currentHumidity.current = value.humidity;
           setHumidity(value.humidity.toFixed(1));
           break;
-        case 'raspi/press':
+        case 'raspi/in/press':
           setPressure(Math.round(value.pressure));
           break;
-        case 'raspi/temp/feelsLike':
+        case 'raspi/in/temp/feelsLike':
           setFeelsLike(value.feelsLike.toFixed(1));
           break;
         default:
