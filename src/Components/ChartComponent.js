@@ -2,6 +2,7 @@ import React from 'react';
 import {Line} from 'react-chartjs-2';
 import 'chart.js/auto';
 import {Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend} from 'chart.js';
+import {Card} from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -14,7 +15,7 @@ const HumidityTemperatureChart = ({dataPoints}) => {
         data: dataPoints.map((point) => point.humidity),
         fill: true,
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
+        borderColor: '#10A7B9',
         tension: 0.4,
       },
       {
@@ -22,7 +23,7 @@ const HumidityTemperatureChart = ({dataPoints}) => {
         data: dataPoints.map((point) => point.temperature),
         fill: true,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        borderColor: '#F04438',
         tension: 0.4,
       },
     ],
@@ -72,11 +73,11 @@ const HumidityTemperatureChart = ({dataPoints}) => {
   };
 
   return (
-    <div style={{height: '500px'}}>
+    <Card style={{height: '500px', padding:'20px'}}>
       {' '}
       {/* Höhe nach Bedarf einstellen */}
       <Line data={chartData} options={options} />
-    </div>
+    </Card>
   );
 };
 
