@@ -3,7 +3,8 @@ import {useMQTT} from './useMQTT';
 import {Container, Grid, Card, CardContent, Typography, ToggleButtonGroup, ToggleButton} from '@mui/material';
 import TimeComponent from './TimeComponent';
 import ChartComponent from './ChartComponent';
-import CardComponent from './Card';
+import ValueCard from './ValueCard';
+import RecCard from './RecCard';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
@@ -37,18 +38,22 @@ const MQTTComponent = () => {
       </Card>
 
       <Grid container spacing={3} justifyContent='center' alignItems='center'>
+        {/* <Grid item xs={12} sm={12}>
+          <RecCard rec={'Heute Regenjacke wallah'}></RecCard>
+        </Grid> */}
         <Grid item xs={12} sm={6}>
-          <CardComponent title='Temperature' value={dataToShow.temperature} unit={'°C'} color='#F04438' icon={<DeviceThermostatIcon />} />
+          <ValueCard title='Temperature' avgValue={dataToShow.avgTemperature} value={dataToShow.temperature} unit={'°C'} color='#F04438' icon={<DeviceThermostatIcon />} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CardComponent title={'Humidity'} value={dataToShow.humidity} unit={'%'} color='#10A7B9' icon={<WaterDropIcon />} />
+          <ValueCard title={'Humidity'} avgValue={dataToShow.avgHumidity} value={dataToShow.humidity} unit={'%'} color='#10A7B9' icon={<WaterDropIcon />} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CardComponent title={'Feels Like'} value={dataToShow.feelsLike} unit={'°C'} color='#F79009' icon={<EmojiEmotionsIcon />} />
+          <ValueCard title={'Pressure'} avgValue={dataToShow.avgPressure} value={dataToShow.pressure} unit={'hPa'} color='#6366F1' icon={<AirIcon />} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CardComponent title={'Pressure'} value={dataToShow.pressure} unit={'hPa'} color='#6366F1' icon={<AirIcon />} />
+          <ValueCard title={'Feels Like'} avgValue={dataToShow.avgFeelsLike} value={dataToShow.feelsLike} unit={'°C'} color='#F79009' icon={<EmojiEmotionsIcon />} />
         </Grid>
+        
 
         <Grid item xs={12}>
           <ChartComponent dataPoints={dataToShow.dataPoints}></ChartComponent>

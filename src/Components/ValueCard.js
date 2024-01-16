@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import {Avatar, Card, CardContent, Stack, SvgIcon, Typography, Skeleton} from '@mui/material';
 
-const CardComponent = (props) => {
-  const {title, unit, color, value, icon} = props;
+const ValueCard = (props) => {
+  const {title, unit, color, value, icon, avgValue} = props;
 
   return (
-    <Card >
+    <Card sx={{ height: '150px' }}>
       <CardContent>
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between' spacing={3}>
           <Stack spacing={1}>
@@ -13,7 +13,7 @@ const CardComponent = (props) => {
               {title}
             </Typography>
             {value ? (
-                <Typography fontSize='30pt' color='text.secondary' sx={{textAlign: 'center', paddingTop: value ? '0' : '40px'}}>
+              <Typography fontSize='30pt' color='text.secondary' sx={{textAlign: 'center', paddingTop: value ? '0' : '40px'}}>
                 {value}
                 {unit}
               </Typography>
@@ -21,6 +21,7 @@ const CardComponent = (props) => {
               <Skeleton variant='text' width={100} height={70} animation='wave' />
             )}
           </Stack>
+
           <Avatar
             sx={{
               backgroundColor: color,
@@ -30,16 +31,28 @@ const CardComponent = (props) => {
             <SvgIcon>{icon}</SvgIcon>
           </Avatar>
         </Stack>
+        {avgValue && (
+          <Stack alignItems='center' direction='row' spacing={1}>
+            <Stack alignItems='center' direction='row' spacing={0.5}>
+              <Typography color='text.secondary' variant='body1'>
+                {avgValue} {unit}
+              </Typography>
+            </Stack>
+            <Typography color='text.secondary' variant='caption'>
+              average last 7 days
+            </Typography>
+          </Stack>
+        )}
       </CardContent>
     </Card>
   );
 };
 
-CardComponent.prototypes = {
+ValueCard.prototypes = {
   title: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 };
 
-export default CardComponent;
+export default ValueCard;
