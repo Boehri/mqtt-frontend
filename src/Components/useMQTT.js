@@ -19,6 +19,7 @@ export const useMQTT = () => {
   const [outdoorFeelsLike, setOutdoorFeelsLike] = useState(null);
   const [outdoorDataPoints, setOutdoorDataPoints] = useState([]);
   const [outdoorLastUpdated, setOutdoorLastUpdated] = useState(null);
+  const [suggestion, setSuggestion] = useState(null);
 
   // useRef, um den aktuellen Wert von Temperatur und Luftfeuchtigkeit zu speichern
   const currentIndoorTemperature = useRef(null);
@@ -40,60 +41,71 @@ export const useMQTT = () => {
       console.log('Connected to MQTT Broker');
     });
 
-    mqttClient.on('message', (topic, message) => {
-      const value = JSON.parse(message.toString());
-      const now = new Date();
+    mqttClient.on('error', (error) => {
+      console.error('MQTT Connection Error:', error);
+    });
 
-      switch (topic) {
-        // Innen-Daten
-        case 'raspi/in/temp':
-          setIndoorTemperature(value.temperature.toFixed(1));
-          currentIndoorTemperature.current = value.temperature;
-          setIndoorLastUpdated(now);
-          break;
-        case 'raspi/in/humi':
-          setIndoorHumidity(value.humidity.toFixed(1));
-          currentIndoorHumidity.current = value.humidity;
-          if (currentIndoorHumidity.current && currentIndoorTemperature.current) {
-            setIndoorDataPoints((points) => [...points, {time: now, temperature: currentIndoorTemperature.current, humidity: currentIndoorHumidity.current}]);
-          }
-          break;
-        case 'raspi/in/press':
-          setIndoorPressure(Math.round(value.pressure));
-          break;
-        case 'raspi/in/temp/feelsLike':
-          setIndoorFeelsLike(value.feelsLike.toFixed(1));
-          break;
-        // Außen-Daten
-        case 'raspi/out/temp':
-          setOutdoorTemperature(value.temperature.toFixed(1));
-          currentOutdoorTemperature.current = value.temperature;
-          setOutdoorLastUpdated(now);
-          break;
-        case 'raspi/out/humi':
-          setOutdoorHumidity(value.humidity.toFixed(1));
-          currentOutdoorHumidity.current = value.humidity;
-          if (currentOutdoorHumidity.current && currentOutdoorTemperature.current) {
-            setOutdoorDataPoints((points) => [...points, {time: now, temperature: currentOutdoorTemperature.current, humidity: currentOutdoorHumidity.current}]);
-          }
-          break;
-        case 'raspi/out/press':
-          setOutdoorPressure(Math.round(value.pressure));
-          break;
-        case 'raspi/out/temp/feelsLike':
-          setOutdoorFeelsLike(value.feelsLike.toFixed(1));
-          break;
-        case 'raspi/in/temp/avg':
-          setIndoorAverageTemperature(value.avgTemperature.toFixed(1));
-          break;
-        case 'raspi/in/humi/avg':
-          setIndoorAverageHumidity(value.avgHumidity.toFixed(1));
-          break;
-        case 'raspi/in/press/avg':
-          setIndoorAveragePressure(Math.round(value.avgPressure));
-          break;
-        default:
-          break;
+    mqttClient.on('message', (topic, message) => {
+      try {
+        const value = JSON.parse(message.toString());
+        const now = new Date();
+
+        switch (topic) {
+          // Innen-Daten
+          case 'raspi/in/temp':
+            setIndoorTemperature(value.temperature.toFixed(1));
+            currentIndoorTemperature.current = value.temperature;
+            setIndoorLastUpdated(now);
+            break;
+          case 'raspi/in/humi':
+            setIndoorHumidity(value.humidity.toFixed(1));
+            currentIndoorHumidity.current = value.humidity;
+            if (currentIndoorHumidity.current && currentIndoorTemperature.current) {
+              setIndoorDataPoints((points) => [...points, {time: now, temperature: currentIndoorTemperature.current, humidity: currentIndoorHumidity.current}]);
+            }
+            break;
+          case 'raspi/in/press':
+            setIndoorPressure(Math.round(value.pressure));
+            break;
+          case 'raspi/in/temp/feelsLike':
+            setIndoorFeelsLike(value.feelsLike.toFixed(1));
+            break;
+          // Außen-Daten
+          case 'raspi/out/temp':
+            setOutdoorTemperature(value.temperature.toFixed(1));
+            currentOutdoorTemperature.current = value.temperature;
+            setOutdoorLastUpdated(now);
+            break;
+          case 'raspi/out/humi':
+            setOutdoorHumidity(value.humidity.toFixed(1));
+            currentOutdoorHumidity.current = value.humidity;
+            if (currentOutdoorHumidity.current && currentOutdoorTemperature.current) {
+              setOutdoorDataPoints((points) => [...points, {time: now, temperature: currentOutdoorTemperature.current, humidity: currentOutdoorHumidity.current}]);
+            }
+            break;
+          case 'raspi/out/press':
+            setOutdoorPressure(Math.round(value.pressure));
+            break;
+          case 'raspi/out/temp/feelsLike':
+            setOutdoorFeelsLike(value.feelsLike.toFixed(1));
+            break;
+          case 'raspi/in/temp/avg':
+            setIndoorAverageTemperature(value.avgTemperature.toFixed(1));
+            break;
+          case 'raspi/in/humi/avg':
+            setIndoorAverageHumidity(value.avgHumidity.toFixed(1));
+            break;
+          case 'raspi/in/press/avg':
+            setIndoorAveragePressure(Math.round(value.avgPressure));
+            break;
+          case 'raspi/out/sug':
+            setSuggestion(value.suggestion);
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error('Error parsing MQTT message:', error);
       }
     });
 
@@ -103,7 +115,7 @@ export const useMQTT = () => {
   }, []); // Leeres Array als Abhängigkeiten, um den Hook nur beim Mounten auszuführen
 
   return {
-    indoorData: {temperature: indoorTemperature, avgTemperature: indoorAverageTemperature, humidity: indoorHumidity, avgHumidity: indoorAverageHumidity, pressure: indoorPressure, avgPressure: indoorAveragePressure , feelsLike: indoorFeelsLike, dataPoints: indoorDataPoints, lastUpdated: indoorLastUpdated},
-    outdoorData: {temperature: outdoorTemperature, humidity: outdoorHumidity, pressure: outdoorPressure, feelsLike: outdoorFeelsLike, dataPoints: outdoorDataPoints, lastUpdated: outdoorLastUpdated},
+    indoorData: {temperature: indoorTemperature, avgTemperature: indoorAverageTemperature, humidity: indoorHumidity, avgHumidity: indoorAverageHumidity, pressure: indoorPressure, avgPressure: indoorAveragePressure, feelsLike: indoorFeelsLike, dataPoints: indoorDataPoints, lastUpdated: indoorLastUpdated},
+    outdoorData: {temperature: outdoorTemperature, humidity: outdoorHumidity, pressure: outdoorPressure, feelsLike: outdoorFeelsLike, dataPoints: outdoorDataPoints, lastUpdated: outdoorLastUpdated, suggestion: suggestion},
   };
 };

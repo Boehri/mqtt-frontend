@@ -1,10 +1,10 @@
 import React from 'react';
 import {useMQTT} from './useMQTT';
-import {Container, Grid, Card, CardContent, Typography, ToggleButtonGroup, ToggleButton} from '@mui/material';
+import {Container, Grid, Card, Typography, ToggleButtonGroup, ToggleButton} from '@mui/material';
 import TimeComponent from './TimeComponent';
 import ChartComponent from './ChartComponent';
 import ValueCard from './ValueCard';
-import RecCard from './RecCard';
+import SugCard from './SugCard';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
@@ -12,8 +12,8 @@ import AirIcon from '@mui/icons-material/Air';
 import { useState } from 'react';
 
 const MQTTComponent = () => {
-  const {indoorData, outdoorData} = useMQTT(); // Angenommen, useMQTT gibt Daten für Innen und Außen zurück
-  const [selectedEnvironment, setSelectedEnvironment] = useState('indoor'); // Innen oder Außen
+  const {indoorData, outdoorData} = useMQTT(); 
+  const [selectedEnvironment, setSelectedEnvironment] = useState('indoor'); 
 
   const handleEnvironmentChange = (event, newEnvironment) => {
     if (newEnvironment !== null) {
@@ -38,9 +38,7 @@ const MQTTComponent = () => {
       </Card>
 
       <Grid container spacing={3} justifyContent='center' alignItems='center'>
-        {/* <Grid item xs={12} sm={12}>
-          <RecCard rec={'Heute Regenjacke wallah'}></RecCard>
-        </Grid> */}
+        
         <Grid item xs={12} sm={6}>
           <ValueCard title='Temperature' avgValue={dataToShow.avgTemperature} value={dataToShow.temperature} unit={'°C'} color='#F04438' icon={<DeviceThermostatIcon />} />
         </Grid>
@@ -53,7 +51,9 @@ const MQTTComponent = () => {
         <Grid item xs={12} sm={6}>
           <ValueCard title={'Feels Like'} avgValue={dataToShow.avgFeelsLike} value={dataToShow.feelsLike} unit={'°C'} color='#F79009' icon={<EmojiEmotionsIcon />} />
         </Grid>
-        
+        <Grid item xs={12} sm={12}>
+          <SugCard sug={dataToShow.suggestion}></SugCard>
+        </Grid>
 
         <Grid item xs={12}>
           <ChartComponent dataPoints={dataToShow.dataPoints}></ChartComponent>
