@@ -8,17 +8,27 @@ import SugCard from './SugCard';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import InfoIcon from '@mui/icons-material/Info';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {IconButton} from '@mui/material';
 import AirIcon from '@mui/icons-material/Air';
 import { useState } from 'react';
+import MQTTInfo from './MQTTInfo';
+import { Box } from '@mui/system';
 
 const MQTTComponent = () => {
   const {indoorData, outdoorData} = useMQTT(); 
-  const [selectedEnvironment, setSelectedEnvironment] = useState('indoor'); 
+  const [selectedEnvironment, setSelectedEnvironment] = useState('indoor');
+  const [showInfo, setShowInfo] = useState(false);
 
   const handleEnvironmentChange = (event, newEnvironment) => {
     if (newEnvironment !== null) {
       setSelectedEnvironment(newEnvironment);
     }
+  };
+
+  const handleInfoButtonClick = () => {
+    setShowInfo(!showInfo);
   };
 
   const dataToShow = selectedEnvironment === 'indoor' ? indoorData : outdoorData;
@@ -31,14 +41,24 @@ const MQTTComponent = () => {
           <ToggleButton value='outdoor'>Außen</ToggleButton>
         </ToggleButtonGroup>
 
-        <Typography variant='h4' color='black'>
-          Sensor Dashboard
-        </Typography>
-        <TimeComponent lastUpdated={dataToShow.lastUpdated} />
+        <Box display='flex' justifyContent="center" alignItems='center' flexGrow={1}>
+          <Typography variant='h4' color='black' sx={{mr: 2}}>
+            Sensor Dashboard
+          </Typography>
+          <IconButton onClick={handleInfoButtonClick} aria-label='Info'>
+            {showInfo ? <InfoIcon /> : <InfoOutlinedIcon />}
+          </IconButton>
+        </Box>
+
+        <Box minWidth={150} textAlign='right'>
+          <TimeComponent lastUpdated={dataToShow.lastUpdated} />
+        </Box>
       </Card>
 
       <Grid container spacing={3} justifyContent='center' alignItems='center'>
-        
+        <Grid item xs={12} sm={12}>
+          <MQTTInfo showInfo={showInfo} />
+        </Grid>
         <Grid item xs={12} sm={6}>
           <ValueCard title='Temperature' avgValue={dataToShow.avgTemperature} value={dataToShow.temperature} unit={'°C'} color='#F04438' icon={<DeviceThermostatIcon />} />
         </Grid>
