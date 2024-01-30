@@ -5,7 +5,7 @@ const SugCard = ({sug}) => {
     <Card>
       <CardContent>
         <Stack>
-          <Typography color='text.secondary' variant='overline'>
+          <Typography fontSize='12pt' color='text.secondary' variant='overline'>
             Suggestion
           </Typography>
           <Typography fontSize='15pt' color='text.secondary' sx={{textAlign: 'left'}}>
