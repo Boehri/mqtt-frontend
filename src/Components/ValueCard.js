@@ -5,15 +5,15 @@ const ValueCard = (props) => {
   const {title, unit, color, value, icon, avgValue} = props;
 
   return (
-    <Card sx={{ height: '150px' }}>
+    <Card sx={{height: '155px'}}>
       <CardContent>
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between' spacing={3}>
           <Stack spacing={1}>
-            <Typography color='text.secondary' variant='overline'>
+            <Typography fontSize='11pt' color='text.secondary' variant='overline'>
               {title}
             </Typography>
             {value ? (
-              <Typography fontSize='30pt' color='text.secondary' sx={{textAlign: 'center', paddingTop: value ? '0' : '40px'}}>
+              <Typography fontSize='30pt' color='text.secondary' sx={{textAlign: 'center', paddingTop: value ? '0' : '30px', marginTop: 0}}>
                 {value}
                 {unit}
               </Typography>
