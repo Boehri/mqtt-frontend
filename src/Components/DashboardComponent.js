@@ -37,8 +37,8 @@ const MQTTComponent = () => {
     <Container maxWidth='lg' sx={{backgroundColor: '#FFFFFF', padding: 3}}>
       <Card sx={{padding: 2, marginBottom: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', '@media (max-width: 765px)': {flexDirection: 'column'}}}>
         <ToggleButtonGroup color='primary' value={selectedEnvironment} exclusive onChange={handleEnvironmentChange} aria-label='Environment' sx={{display: 'flex', justifyContent: 'center', margin: '20px'}}>
-          <ToggleButton value='indoor'>Innen</ToggleButton>
-          <ToggleButton value='outdoor'>Außen</ToggleButton>
+          <ToggleButton value='indoor'>INSIDE</ToggleButton>
+          <ToggleButton value='outdoor'>OUTSIDE</ToggleButton>
         </ToggleButtonGroup>
 
         <Box display='flex' justifyContent="center" alignItems='center' flexGrow={1}>
