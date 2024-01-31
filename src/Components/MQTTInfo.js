@@ -1,5 +1,6 @@
 import {CardContent, Card, Stack, Typography} from '@mui/material';
 import SystemArchitecture from '../assets/MQTTSystemArchitecture.png';
+import { Margin } from '@mui/icons-material';
 
 const MQTTInfo = ({showInfo}) => {
   return showInfo === true ? (
@@ -71,8 +72,10 @@ const MQTTInfo = ({showInfo}) => {
               </li>
             </ul>
           </Typography>
-
           <img alt='MQTT System Architecture' src={SystemArchitecture}></img>
+            <a  href='https://github.com/Boehri/mqtt-frontend' target='_blank' rel='noopener noreferrer' style={{marginTop: '10px'}}>
+            Check mqtt-frontend on GitHub
+          </a>
         </Stack>
       </CardContent>
     </Card>
