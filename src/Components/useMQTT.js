@@ -1,6 +1,33 @@
 import {useEffect, useState, useRef} from 'react';
 import mqtt from 'mqtt';
 
+/**
+ * Eine benutzerdefinierte Hook-Funktion, die eine Verbindung zu einem MQTT-Broker herstellt und MQTT-Daten abruft.
+ * @returns {{
+ *   indoorData: {
+ *     temperature: number | null,
+ *     avgTemperature: number | null,
+ *     humidity: number | null,
+ *     avgHumidity: number | null,
+ *     pressure: number | null,
+ *     avgPressure: number | null,
+ *     feelsLike: number | null,
+ *     dataPoints: Array<{time: Date, temperature: number, humidity: number}>,
+ *     lastUpdated: Date | null
+ *   },
+ *   outdoorData: {
+ *     temperature: number | null,
+ *     humidity: number | null,
+ *     pressure: number | null,
+ *     feelsLike: number | null,
+ *     dataPoints: Array<{time: Date, temperature: number, humidity: number}>,
+ *     lastUpdated: Date | null,
+ *     suggestion: string | null
+ *   }
+ * }}
+ */
+
+
 export const useMQTT = () => {
   const [indoorTemperature, setIndoorTemperature] = useState(null);
   const [indoorAverageTemperature, setIndoorAverageTemperature] = useState(null);
@@ -113,6 +140,8 @@ export const useMQTT = () => {
       mqttClient.end();
     };
   }, []); // Leeres Array als Abhängigkeiten, um den Hook nur beim Mounten auszuführen
+
+  
 
   return {
     indoorData: {temperature: indoorTemperature, avgTemperature: indoorAverageTemperature, humidity: indoorHumidity, avgHumidity: indoorAverageHumidity, pressure: indoorPressure, avgPressure: indoorAveragePressure, feelsLike: indoorFeelsLike, dataPoints: indoorDataPoints, lastUpdated: indoorLastUpdated},

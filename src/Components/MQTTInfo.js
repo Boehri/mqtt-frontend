@@ -1,6 +1,13 @@
 import {CardContent, Card, Stack, Typography} from '@mui/material';
 import SystemArchitecture from '../assets/MQTTSystemArchitecture.png';
-import { Margin } from '@mui/icons-material';
+
+/**
+ * Komponente, die Informationen über MQTT darstellt.
+ * 
+ * @param {boolean} props.showInfo - Gibt an, ob die Informationen angezeigt werden sollen.
+ * 
+ * @returns {JSX.Element|null} Die JSX-Elemente, die die MQTT-Informationen darstellen, oder null, wenn showInfo false ist.
+ */
 
 const MQTTInfo = ({showInfo}) => {
   return showInfo === true ? (

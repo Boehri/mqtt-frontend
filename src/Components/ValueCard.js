@@ -1,6 +1,18 @@
 import PropTypes from 'prop-types';
 import {Avatar, Card, CardContent, Stack, SvgIcon, Typography, Skeleton} from '@mui/material';
 
+/**
+ * Komponente für eine Wertekarte.
+ *
+ * @param {string} props.title - Der Titel der Wertekarte.
+ * @param {string} props.unit - Die Einheit des Werts.
+ * @param {string} props.color - Die Hintergrundfarbe des Icons.
+ * @param {string} props.value - Der Wert, der angezeigt werden soll.
+ * @param {React.Component} props.icon - Das Icon, das angezeigt werden soll.
+ * @param {string} props.avgValue - Der Durchschnittswert der letzten 7 Tage.
+ * @returns {JSX.Element} Die gerenderte Komponente.
+ */
+
 const ValueCard = (props) => {
   const {title, unit, color, value, icon, avgValue} = props;
 

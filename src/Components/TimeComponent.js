@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { Skeleton, Typography } from '@mui/material';
 
+/**
+ * Komponente zur Anzeige der aktuellen Zeit und der Zeit seit dem letzten Update.
+ * 
+ * @param {string} props.lastUpdated - Das Datum und die Uhrzeit des letzten Updates.
+ * @returns {JSX.Element} Die gerenderte TimeComponent.
+ */
+
 const TimeComponent = ({ lastUpdated }) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const [timeSinceUpdate, setTimeSinceUpdate] = useState(null);
