@@ -1,3 +1,10 @@
+/**
+ * Komponente für eine Karte, die eine Vorschlag enthält.
+ *
+ * @param {string} props.sug - Der Vorschlagstext.
+ * @returns {JSX.Element|null} - Die gerenderte Karte mit dem Vorschlag oder null, wenn kein Vorschlag vorhanden ist.
+ */
+
 import {CardContent, Card, Stack, Typography} from '@mui/material';
 
 const SugCard = ({sug}) => {

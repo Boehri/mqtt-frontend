@@ -6,6 +6,15 @@ import {Card} from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+/**
+ * Komponente zur Darstellung eines Diagramms für Luftfeuchtigkeit und Temperatur.
+ *
+ * @param {Object[]} dataPoints - Die Datenpunkte für das Diagramm.
+ * @param {Date} dataPoints[].time - Die Zeit des Datenpunkts.
+ * @param {number} dataPoints[].humidity - Die Luftfeuchtigkeit des Datenpunkts in Prozent.
+ * @param {number} dataPoints[].temperature - Die Temperatur des Datenpunkts in Grad Celsius.
+ * @returns {JSX.Element} - Das Diagramm-Komponente.
+ */
 const HumidityTemperatureChart = ({dataPoints}) => {
   const chartData = {
     labels: dataPoints.map((point) => point.time.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false})),

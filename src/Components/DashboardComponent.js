@@ -16,6 +16,14 @@ import { useState } from 'react';
 import MQTTInfo from './MQTTInfo';
 import { Box } from '@mui/system';
 
+
+/**
+ * Komponente für das MQTT-Dashboard.
+ * Mithilfe von useMQTT kann der Wechsel zwischen innen und außen realisiert werden. 
+ * Diese Komponente enthält alle weiteren relevanten Komponenten in einem Grid. 
+ * 
+ * @returns {JSX.Element} Das gerenderte MQTT-Dashboard.
+ */
 const MQTTComponent = () => {
   const {indoorData, outdoorData} = useMQTT(); 
   const [selectedEnvironment, setSelectedEnvironment] = useState('indoor');
